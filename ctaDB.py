@@ -2,7 +2,7 @@ from pymongo import MongoClient
 from datetime import datetime
 
 # Connect to MongoDB
-connection_url="your connection here"
+connection_url="mongodb+srv://lucuser:csclassluc@luccluster.7jdjevt.mongodb.net/?retryWrites=true&w=majority&appName=LUCcluster"
 client = MongoClient(connection_url)
 db = client["comp_353"]
 
@@ -133,3 +133,63 @@ for schedule in train_schedules:
 
 train_data = db.train_schedule.find_one({"tID": "R1"})
 print(train_data)
+
+
+class Passenger:
+    def __init__(self, pID, pName,pBalance ):
+        self.pBalance = pBalance
+        self.pName = pName
+        self.pID = pID
+
+    def save(self):
+        passenger_data = {
+            "pBalance": self.pBalance,
+            "pName": self.pName,
+            "pID": self.pID,
+        }
+        db.passenger.insert_one(passenger_data)
+
+passengers = [
+    Passenger(1, "Arthur Morgan", 50),
+    Passenger(2, "Mark Zuckerberg", 10),
+    Passenger(3, "Charlie Brown", 76),
+    Passenger(4, "Jane Doe", 22),
+    Passenger(5, "John Smith", 13),
+    Passenger(6, "Emma Watson", 31),
+    Passenger(7, "Bruce Wayne", 10),
+    Passenger(8, "Clark Kent", 6)
+]
+
+for passenger in passengers:
+    passenger.save()
+
+class Bus:
+    def __init__(self, bID, bStopNum):
+        self.bID = bID
+        self.bStopNum = bStopNum
+
+    def save(self):
+        bus_data = {
+            "bID": self.bID,
+            "bStopNum": self.bStopNum
+        }
+        db.bus.insert_one(bus_data)
+
+busses = [
+    Bus("N8x0", 0),
+    Bus("N8x1", 1),
+    Bus("N8x2", 2),
+    Bus("S8x0", 12),
+    Bus("S8x1", 11),
+    Bus("S8x2", 10),
+    Bus("E51x0", 4),
+    Bus("E51x1", 5),
+    Bus("E51x2", 6),
+    Bus("W51x0", 15),
+    Bus("W51x1", 14),
+    Bus("W51x2", 13)
+]
+
+for bus in busses:
+    bus.save()
+        
